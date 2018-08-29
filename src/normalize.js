@@ -10,6 +10,25 @@ const readStream = fs.createReadStream(csvFile, 'utf8').pipe(
   })
 );
 
+let isHeaderLine = true;
+
 readStream.on('data', chunk => {
-  console.log(chunk);
+  let formatted;
+  if (isHeaderLine) {
+    isHeaderLine = false;
+    formatted = chunk;
+  } else {
+    const [timestamp, address, zipcode, fullName, fooDur, barDur, totalDur, notes] = chunk;
+    formatted = [
+      timestamp,
+      address,
+      formatZipcode(zipcode),
+      formatName(fullName),
+      formatDuration(fooDur),
+      formatDuration(barDur),
+      totalDur,
+      notes
+    ];
+  }
+  console.log(formatted);
 });
