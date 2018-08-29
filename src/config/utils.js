@@ -1,24 +1,32 @@
 /**
  * @function formatTimestamp
  */
-export const formatTimestamp = () => {};
+const formatTimestamp = () => {};
 
 /**
  * @function formatZipcode
  */
-export const formatZipcode = () => {};
+const formatZipcode = () => {};
 
 /**
  * @function formatName
  */
-export const formatName = () => {};
+const formatName = () => {};
 
 /**
  * @function formatAddress
  */
-export const formatAddress = () => {};
+const formatAddress = () => {};
 
 /**
- * @function formatAddress
+ * @function formatDuration
  */
-export const formatDuration = () => {};
+const formatDuration = () => {};
+
+module.exports = {
+  formatTimestamp,
+  formatZipcode,
+  formatName,
+  formatAddress,
+  formatDuration
+};
