@@ -1,0 +1,14 @@
+{
+  "name": "truss-csv",
+  "version": "1.0.0",
+  "description": "Coding challenge for Truss",
+  "main": "normalize.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicholas Ko",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parse": "^3.0.0"
+  }
+}
