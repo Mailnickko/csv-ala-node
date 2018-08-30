@@ -2,8 +2,8 @@ const fs = require('fs');
 const parser = require('csv-parse');
 const { formatTimestamp, formatZipcode, formatName, formatDuration, combineDurations } = require('./config/utils');
 
-const csvFile = 'sample.csv';
-console.log('__', __dirname);
+const csvFile = process.argv[2] || 'sample.csv';
+const csvPath = `${__dirname}/../${csvFile}`;
 const outputPath = `${__dirname}/../output/`;
 
 // Check to see if output directory exists, if not make it!
@@ -25,9 +25,9 @@ const makeOutputDir = dirPath => {
  * Parse through csvFile, make transformations, then output to destinationFile
  */
 const createCSVOutput = () => {
-  const destinationFile = csvFile.split('.').join('-normalized');
+  const destinationFile = csvFile.split('.').join('-normalized.');
   const writeStream = fs.createWriteStream(outputPath + destinationFile);
-  const readStream = fs.createReadStream(csvFile, 'utf8').pipe(
+  const readStream = fs.createReadStream(csvPath, 'utf8').pipe(
     parser({
       deliminator: ','
     })

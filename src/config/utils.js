@@ -11,7 +11,14 @@ const CONSTANTS = {
  * @param {string} timestamp - stringified timestamp
  * @returns {string} returns time string formatted to ISO-8601
  */
-const formatTimestamp = timestamp => moment.tz(timestamp, CONSTANTS.TIME_FORMAT, CONSTANTS.TIME_ZONE).toISOString();
+const formatTimestamp = timestamp => {
+  const formatted = moment.tz(timestamp, CONSTANTS.TIME_FORMAT, CONSTANTS.TIME_ZONE);
+  if (formatted.isValid()) {
+    return formatted.toISOString();
+  } else {
+    throw new Error('timestamp is not valid');
+  }
+};
 
 /**
  * @function formatZipcode
