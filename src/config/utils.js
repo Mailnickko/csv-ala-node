@@ -1,11 +1,17 @@
 const moment = require('moment-timezone');
+const CONSTANTS = {
+  TIME_FORMAT: 'MM/DD/YY hh:mm:ss A',
+  TIME_ZONE: 'America/New_York',
+  LOCALES: ['en-US'],
+  ZIP_LENGTH: 5
+};
 
 /**
  * @function formatTimestamp
  * @param {string} timestamp - stringified timestamp
  * @returns {string} returns time string formatted to ISO-8601
  */
-const formatTimestamp = timestamp => moment.tz(timestamp, 'MM/DD/YY hh:mm:ss A', 'America/New_York').toISOString();
+const formatTimestamp = timestamp => moment.tz(timestamp, CONSTANTS.TIME_FORMAT, CONSTANTS.TIME_ZONE).toISOString();
 
 /**
  * @function formatZipcode
@@ -13,10 +19,10 @@ const formatTimestamp = timestamp => moment.tz(timestamp, 'MM/DD/YY hh:mm:ss A',
  * @returns {string} zipcode formatted to 5 chars
  */
 const formatZipcode = zipcode => {
-  if (zipcode.length > 5) {
-    zipcode = zipcode.slice(0, 5);
-  } else if (zipcode.length < 5) {
-    const zipLengthDiff = 5 - zipcode.length;
+  if (zipcode.length > CONSTANTS.ZIP_LENGTH) {
+    zipcode = zipcode.slice(0, CONSTANTS.ZIP_LENGTH);
+  } else if (zipcode.length < CONSTANTS.ZIP_LENGTH) {
+    const zipLengthDiff = CONSTANTS.ZIP_LENGTH - zipcode.length;
     zipcode = '0'.repeat(zipLengthDiff) + zipcode;
   }
   return zipcode;
@@ -28,7 +34,7 @@ const formatZipcode = zipcode => {
  * @param {array} locales - fallback locales to use, default to en-US
  * @returns {string} uppercased name
  */
-const formatName = (name, locales = ['en-US']) => {
+const formatName = (name, locales = CONSTANTS.LOCALES) => {
   return name.toLocaleUpperCase(locales);
 };
 
