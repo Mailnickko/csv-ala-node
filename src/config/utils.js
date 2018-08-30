@@ -33,21 +33,23 @@ const formatName = (name, locales = ['en-US']) => {
 };
 
 /**
- * @function formatAddress
- */
-const formatAddress = () => {};
-
-/**
  * @function formatDuration
- * @param {string} time - stringified time format, sample shape: 111:23:32.123
- * @returns {number} breaks out time format and converts to seconds
+ * @returns {function}
+ * returns a closure function that accepts a "time (sample shape: 111:23:32.123)"
+ * string param to keep track of cache in enclosing function
  */
-const formatDuration = time => {
-  const [hours, minutes, seconds] = time.split(':');
-  const hoursToSeconds = parseInt(hours, 10) * 60 * 60;
-  const minutesToSeconds = parseInt(minutes, 10) * 60;
-  const roundedSeconds = Math.round(parseFloat(seconds, 10));
-  return hoursToSeconds + minutesToSeconds + roundedSeconds;
+const formatDuration = () => {
+  const memo = {};
+  return time => {
+    if (!memo[time]) {
+      const [hours, minutes, seconds] = time.split(':');
+      const hoursToSeconds = parseInt(hours, 10) * 60 * 60;
+      const minutesToSeconds = parseInt(minutes, 10) * 60;
+      const roundedSeconds = Math.round(parseFloat(seconds, 10));
+      memo[time] = hoursToSeconds + minutesToSeconds + roundedSeconds;
+    }
+    return memo[time];
+  };
 };
 
 /**
@@ -62,7 +64,6 @@ module.exports = {
   formatTimestamp,
   formatZipcode,
   formatName,
-  formatAddress,
-  formatDuration,
+  formatDuration: formatDuration(),
   combineDurations
 };
