@@ -36,6 +36,7 @@ const createCSVOutput = () => {
   readStream
     .on('data', chunk => {
       let formatted;
+      let isAllValidData = true;
       if (isHeaderLine) {
         isHeaderLine = false;
         formatted = chunk;
@@ -50,12 +51,18 @@ const createCSVOutput = () => {
           formatDuration(barDur),
           combineDurations(formatDuration(fooDur), formatDuration(barDur)),
           notes
-        ].join(',');
+        ];
+
+        isAllValidData = formatted.every(data => {
+          return data !== false;
+        });
       }
-      writeStream.write(formatted + '\n');
+      if (isAllValidData) {
+        writeStream.write(formatted.join(',') + '\n');
+      }
     })
     .on('end', () => {
-      console.log('We done');
+      console.log('Finished! Checkout the output directory');
     });
 };
 

@@ -16,7 +16,8 @@ const formatTimestamp = timestamp => {
   if (formatted.isValid()) {
     return formatted.toISOString();
   } else {
-    throw new Error('timestamp is not valid');
+    console.log('Date field is invalid');
+    return false;
   }
 };
 
