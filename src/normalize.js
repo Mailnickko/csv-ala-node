@@ -1,6 +1,6 @@
 const fs = require('fs');
 const parser = require('csv-parse');
-const { formatTimestamp, formatZipcode, formatName, formatAddress, formatDuration } = require('./config/utils');
+const { formatTimestamp, formatZipcode, formatName, formatDuration, combineDurations } = require('./config/utils');
 
 const csvFile = 'sample.csv';
 
@@ -20,13 +20,13 @@ readStream.on('data', chunk => {
   } else {
     const [timestamp, address, zipcode, fullName, fooDur, barDur, totalDur, notes] = chunk;
     formatted = [
-      timestamp,
+      formatTimestamp(timestamp),
       address,
       formatZipcode(zipcode),
       formatName(fullName),
       formatDuration(fooDur),
       formatDuration(barDur),
-      totalDur,
+      combineDurations(formatDuration(fooDur), formatDuration(barDur)),
       notes
     ];
   }

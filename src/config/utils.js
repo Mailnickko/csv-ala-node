@@ -1,7 +1,11 @@
+const moment = require('moment-timezone');
+
 /**
  * @function formatTimestamp
+ * @param {string} timestamp - stringified timestamp
+ * @returns {string} returns time string formatted to ISO-8601
  */
-const formatTimestamp = () => {};
+const formatTimestamp = timestamp => moment.tz(timestamp, 'MM/DD/YY hh:mm:ss A', 'America/New_York').toISOString();
 
 /**
  * @function formatZipcode
@@ -46,10 +50,19 @@ const formatDuration = time => {
   return hoursToSeconds + minutesToSeconds + roundedSeconds;
 };
 
+/**
+ * @function combineDurations
+ * @param {number} time1 - time in seconds
+ * @param {number} time2 - time in seconds
+ * @returns {number} returns the sum given time in seconds
+ */
+const combineDurations = (time1, time2) => time1 + time2;
+
 module.exports = {
   formatTimestamp,
   formatZipcode,
   formatName,
   formatAddress,
-  formatDuration
+  formatDuration,
+  combineDurations
 };
