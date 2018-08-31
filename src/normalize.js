@@ -7,23 +7,46 @@ const csvPath = `${__dirname}/../${csvFile}`;
 const outputPath = `${__dirname}/../output/`;
 
 /**
+ * @function validateFileInRootDir
+ * @param {string} csvFile - name of csv file
+ * @param {string} csvPath - path to csv file
+ * @returns {void} returns nothing
+ * @description
+ * Checks to see if the requested file exists in root dir
+ * If so, invoke makeOutputDir, otherwise, throw an error in console.
+ */
+const validateFileInRootDir = (csvFile, csvPath) => {
+  if (!fs.existsSync(csvPath)) {
+    throw new Error(`${csvFile} does not exist in the root directory`);
+  } else {
+    makeOutputDir(outputPath);
+  }
+};
+
+/**
  * @function makeOutputDir
  * @param {string} dirPath - the path to make output directory
  * @returns {void} returns nothing
  * @description
  * Check to see if output directory exists, if not make it!
+ * Then continue parse csv file
  */
 const makeOutputDir = dirPath => {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath);
   }
+  createCSVOutput();
 };
 
 /**
  * @function createCSVOutput
  * @returns {void} returns nothing
  * @description
- * Parse through csvFile, make transformations, then output to destinationFile
+ * Create read and write steams
+ * Write first line, since that is header,
+ * For subsequent lines, make necessary transformations
+ * Check to see if all data is valid for current chunk
+ * If valid write to output file, otherwise skip it
  */
 const createCSVOutput = () => {
   const destinationFile = csvFile.split('.').join('-normalized.');
@@ -54,6 +77,7 @@ const createCSVOutput = () => {
           notes
         ];
 
+        // Let's confirm all data is valid, if not, we'll skip adding this row
         isAllValidData = formatted.every(data => {
           return data !== false;
         });
@@ -67,5 +91,4 @@ const createCSVOutput = () => {
     });
 };
 
-makeOutputDir(outputPath);
-createCSVOutput();
+validateFileInRootDir(csvFile, csvPath);
