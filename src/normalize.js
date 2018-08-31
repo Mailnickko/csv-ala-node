@@ -6,11 +6,12 @@ const csvFile = process.argv[2] || 'sample.csv';
 const csvPath = `${__dirname}/../${csvFile}`;
 const outputPath = `${__dirname}/../output/`;
 
-// Check to see if output directory exists, if not make it!
 /**
  * @function makeOutputDir
  * @param {string} dirPath - the path to make output directory
  * @returns {void} returns nothing
+ * @description
+ * Check to see if output directory exists, if not make it!
  */
 const makeOutputDir = dirPath => {
   if (!fs.existsSync(dirPath)) {
